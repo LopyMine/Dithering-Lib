@@ -1,0 +1,33 @@
+import net.lopymine.utils.MossyUtils
+
+plugins {
+	id "net.lopymine.mossy-plugin-core" version "$mossy_plugin_version"
+}
+
+mossyDependencies {
+	minecraft = stonecutter.current.project.substring(stonecutter.current.project.indexOf("-") + 1)
+	lombok = prop("base.lombok_version")
+
+	fabricApi = prop("build.fabric_api")
+	fabricLoader = prop("build.fabric_loader")
+
+	forge = prop("build.forge")
+
+	neoForge = prop("build.neoforge")
+	parchment = prop("build.parchment")
+
+	additional {
+		// TIP: Don't use modImplementation, use mossyImplementation and etc.
+		//override("mossyCompileOnly", "yacl")
+		//disable("yacl")
+	}
+}
+
+mossyResources {
+	//expandFiles = ["file pattern"]
+	customProperty("mossylib_version", MossyUtils.substringBefore(prop("dep.mossylib"), "+"))
+}
+
+String prop(String key) {
+	return findProperty(key).toString()
+}
