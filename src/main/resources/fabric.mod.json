@@ -8,21 +8,18 @@
         "${mod_authors}"
     ],
     "contact": {
-        "homepage": "https://modrinth.com/mod/${mod_id}",
-        "issues": "https://github.com/${github_author}/${mod_id}"
+        "homepage": "https://modrinth.com/mod/${github_mod_name}",
+        "issues": "https://github.com/${github_author}/${github_mod_name}/issues"
     },
     "license": "${mod_license}",
     "icon": "icon/icon.png",
-    "environment": "*",
+    "environment": "${fabric_trick_side}",
     "entrypoints": {
         "main": [
-	        "net.lopymine.mossy.entrypoint.CommonEntrypoint"
+	        "net.lopymine.dl.entrypoint.CommonEntrypoint"
         ],
         "client": [
-	        "net.lopymine.mossy.entrypoint.ClientEntrypoint"
-        ],
-        "modmenu": [
-	        "net.lopymine.mossy.modmenu.ModMenuIntegration"
+	        "net.lopymine.dl.entrypoint.ClientEntrypoint"
         ]
     },
     "depends": {
@@ -33,7 +30,7 @@
         "${fabric_api_id}": "*"
     },
 	"accessWidener": "${fabric_trick_accesswidener_id}",
-    "mixins": [
-        "${fabric_trick_mixin_configs}"
-    ]
+	"mixins": [
+		"${fabric_trick_mixin_configs}"
+	]
 }

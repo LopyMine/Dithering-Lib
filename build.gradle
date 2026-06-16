@@ -1,7 +1,6 @@
-import net.lopymine.utils.MossyUtils
-
 plugins {
 	id "net.lopymine.mossy-plugin-core" version "$mossy_plugin_version"
+	id "maven-publish"
 }
 
 mossyDependencies {
@@ -17,16 +16,49 @@ mossyDependencies {
 	parchment = prop("build.parchment")
 
 	additional {
-		// TIP: Don't use modImplementation, use mossyImplementation and etc.
-		//override("mossyCompileOnly", "yacl")
-		//disable("yacl")
+		override("mossyCompileOnly", "iris")
+		override("mossyCompileOnly", "sodium")
 	}
 }
 
-mossyResources {
-	//expandFiles = ["file pattern"]
-	customProperty("mossylib_version", MossyUtils.substringBefore(prop("dep.mossylib"), "+"))
+//mossyResources {
+//	customProperty("mossylib_version", MossyUtils.substringBefore(prop("dep.mossylib"), "+"))
+//}
+
+stonecutter {
+	replacements.string(current.parsed >= "26.1") {
+		replace("net.minecraft.client.gui.GuiGraphics", "net.minecraft.client.gui.GuiGraphicsExtractor")
+		replace("GuiGraphics", "GuiGraphicsExtractor")
+		replace("context.drawString(", "context.text(")
+		replace("context.renderItem(", "context.item(")
+		replace("graphics.drawString(", "graphics.text(")
+		replace("graphics.renderItem(", "graphics.item(")
+		replace("ClickType", "ContainerInput")
+		replace("atlas.location()", "atlas.location()")
+	}
+
+	replacements.string(current.parsed >= "1.21.11") {
+		replace("import net.minecraft.Util;", "import net.minecraft.util.Util;")
+	}
 }
+
+
+
+publishing {
+	repositories {
+		mavenLocal()
+	}
+
+	publications {
+		mossyPlugin(MavenPublication) {
+			groupId = "${prop("data.mod_maven_group")}"
+			artifactId = prop("data.mod_id")
+			version = "${prop("data.mod_version")}-${stonecutter.current.project}"
+			from components.java
+		}
+	}
+}
+
 
 String prop(String key) {
 	return findProperty(key).toString()

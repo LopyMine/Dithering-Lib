@@ -1,0 +1,19 @@
+{
+	"required": true,
+	"package": "net.lopymine.dl.mixin",
+	"refmap": "${mod_id}.refmap.json",
+	"compatibilityLevel": "JAVA_${java}",
+	"mixins": [],
+	"client": [
+		"pipeline.RenderPipelineMixin",
+		"pipeline.RenderPipelineBuilderMixin",
+		"pipeline.RenderPipelineBuilderAccessor",
+		"render.SubmitNodeCollectionMixin",
+		"render.RenderTypeMixin",
+		"render.BlockModelRenderStateMixin",
+		"shader.GlDeviceMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

@@ -1,5 +1,5 @@
 license = "${mod_license}"
-issueTrackerURL = "https://github.com/${github_author}/${mod_id}"
+issueTrackerURL = "https://github.com/${github_author}/${github_mod_name}"
 modLoader="javafml"
 loaderVersion="[1,)"
 
@@ -8,7 +8,7 @@ modId = "${mod_id}"
 version = "${mod_version}"
 displayName = "${mod_name}"
 side="${neoforge_trick_side}"
-displayURL = "https://modrinth.com/mod/${mod_id}"
+displayURL = "https://modrinth.com/mod/${github_mod_name}"
 logoFile = "icon/icon.png"
 authors = "${mod_authors}"
 description = '''${mod_description}'''
@@ -32,6 +32,6 @@ side = "BOTH"
 [[dependencies.${mod_id}]]
 modId = "mossylib"
 type = "required"
-versionRange = "[${mossylib_version},)"
+versionRange = "[1.4.0,)"
 ordering = "NONE"
 side = "BOTH"
