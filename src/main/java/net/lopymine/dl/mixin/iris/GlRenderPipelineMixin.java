@@ -19,7 +19,7 @@ public class GlRenderPipelineMixin {
 		if (!DitheringLibClient.isEnabled()) {
 			return;
 		}
-		DitheringMarker thing = (DitheringMarker) this.info;
+		IrisDitheringMarker thing = (IrisDitheringMarker) this.info;
 		if (!thing.ditheringLib$isDithering()) {
 			return;
 		}

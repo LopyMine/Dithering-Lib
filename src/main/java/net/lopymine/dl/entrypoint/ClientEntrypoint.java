@@ -2,7 +2,7 @@ package net.lopymine.dl.entrypoint;
 
 //? if fabric {
 
-/*import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.ClientModInitializer;
 import net.lopymine.dl.client.DitheringLibClient;
 
 public class ClientEntrypoint implements ClientModInitializer {
@@ -13,8 +13,8 @@ public class ClientEntrypoint implements ClientModInitializer {
 	}
 }
 
-*///?} elif neoforge {
-import net.lopymine.dl.DitheringLib;
+//?} elif neoforge {
+/*import net.lopymine.dl.DitheringLib;
 import net.lopymine.dl.client.DitheringLibClient;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.Mod;
@@ -28,4 +28,4 @@ public class ClientEntrypoint {
 
 }
 
-//?}
+*///?}

@@ -15,13 +15,12 @@ import net.irisshaders.iris.gl.framebuffer.GlFramebuffer;
 import net.irisshaders.iris.gl.state.FogMode;
 import net.irisshaders.iris.gl.state.ShaderAttributeInputs;
 import net.irisshaders.iris.gl.uniform.UniformUpdateFrequency;
-import net.irisshaders.iris.pipeline.IrisRenderingPipeline;
-import net.irisshaders.iris.pipeline.WorldRenderingPipeline;
+import net.irisshaders.iris.pipeline.*;
 import net.irisshaders.iris.pipeline.programs.*;
 import net.irisshaders.iris.pipeline.transform.PatchShaderType;
 import net.irisshaders.iris.pipeline.transform.TransformPatcher;
 import net.irisshaders.iris.shaderpack.loading.ProgramId;
-import net.irisshaders.iris.shaderpack.programs.ProgramSource;
+import net.irisshaders.iris.shaderpack.programs.*;
 import net.irisshaders.iris.uniforms.CommonUniforms;
 import net.irisshaders.iris.uniforms.VanillaUniforms;
 import net.irisshaders.iris.uniforms.builtin.BuiltinReplacementUniforms;
@@ -29,7 +28,7 @@ import net.irisshaders.iris.uniforms.custom.CustomUniforms;
 import net.lopymine.dl.api.DitheringLibAPI;
 import net.lopymine.dl.client.DitheringLibClient;
 import net.lopymine.dl.dithering.DitheringData;
-import net.lopymine.dl.utils.ProgramContainer;
+import net.lopymine.dl.utils.*;
 
 public class IrisDitheringShaderManager {
 
@@ -40,7 +39,8 @@ public class IrisDitheringShaderManager {
 		((ProgramContainer) original).ditheringLib$set(dithering);
 	}
 
-	public static boolean isItemKey(ShaderKey key) {
+	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
+	public static boolean isTargetShader(ShaderKey key) {
 		ProgramId id = key.getProgram();
 		return DitheringLibAPI.getInstance().getIrisTargets().contains(id.name().toLowerCase(Locale.ROOT));
 	}
@@ -123,6 +123,7 @@ public class IrisDitheringShaderManager {
 
 		String ditherFragment = IrisShaderPatcher.patchFragmentShader(fragment);
 		if (ditherFragment.equals(fragment)) {
+			DitheringLibClient.LOGGER.error("Failed to patch Iris GlProgram: \"{}\"", name);
 			return null;
 		}
 

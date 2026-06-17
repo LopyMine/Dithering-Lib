@@ -1,6 +1,6 @@
 package net.lopymine.dl.utils;
 
-public interface DitheringMarker {
+public interface IrisDitheringMarker {
 
 	void ditheringLib$setDithering(boolean bl);
 

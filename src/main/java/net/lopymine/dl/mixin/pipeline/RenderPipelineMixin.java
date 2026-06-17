@@ -1,11 +1,11 @@
 package net.lopymine.dl.mixin.pipeline;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import net.lopymine.dl.utils.DitheringMarker;
+import net.lopymine.dl.utils.IrisDitheringMarker;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(RenderPipeline.class)
-public class RenderPipelineMixin implements DitheringMarker {
+public class RenderPipelineMixin implements IrisDitheringMarker {
 
 	@Unique
 	private boolean ditheringLib$bl;

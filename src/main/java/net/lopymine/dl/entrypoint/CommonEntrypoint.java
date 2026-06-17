@@ -1,7 +1,7 @@
 package net.lopymine.dl.entrypoint;
 
 //? if fabric {
-/*import net.lopymine.dl.DitheringLib;
+import net.lopymine.dl.DitheringLib;
 import net.fabricmc.api.ModInitializer;
 
 public class CommonEntrypoint implements ModInitializer {
@@ -12,9 +12,9 @@ public class CommonEntrypoint implements ModInitializer {
 	}
 }
 
-*///?} elif neoforge {
+//?} elif neoforge {
 
-import net.lopymine.dl.DitheringLib;
+/*import net.lopymine.dl.DitheringLib;
 import net.neoforged.fml.common.Mod;
 
 @Mod(DitheringLib.MOD_ID)
@@ -26,5 +26,5 @@ public class CommonEntrypoint {
 
 }
 
-//?}
+*///?}
 

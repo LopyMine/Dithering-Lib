@@ -7,7 +7,7 @@ import com.mojang.blaze3d.systems.RenderPass;
 import net.lopymine.dl.client.DitheringLibClient;
 import net.lopymine.dl.compat.IrisAPI;
 import net.lopymine.dl.dithering.vanilla.*;
-import net.lopymine.dl.utils.DitheringMarker;
+import net.lopymine.dl.utils.IrisDitheringMarker;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(RenderType.class)
-public class RenderTypeMixin implements DitheringMarker {
+public class RenderTypeMixin implements IrisDitheringMarker {
 
 	@Unique
 	private boolean ditheringLib$bl;
@@ -30,13 +30,15 @@ public class RenderTypeMixin implements DitheringMarker {
 
 	@WrapOperation(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderPass;setPipeline(Lcom/mojang/blaze3d/pipeline/RenderPipeline;)V"), method = "draw")
 	private void swapRenderPipeline(RenderPass instance, RenderPipeline pipeline, Operation<Void> original) {
-		((DitheringMarker) pipeline).ditheringLib$setDithering(this.ditheringLib$bl);
+		boolean bl = IrisAPI.isShaderPackInUse();
+		((IrisDitheringMarker) pipeline).ditheringLib$setDithering(this.ditheringLib$bl && bl);
 		if (!this.ditheringLib$bl || !DitheringLibClient.isEnabled()) {
+			this.ditheringLib$bl2 = false;
 			original.call(instance, pipeline);
 			return;
 		}
 		this.ditheringLib$bl = false;
-		if (IrisAPI.isShaderPackInUse()) {
+		if (bl) {
 			this.ditheringLib$bl2 = false;
 			original.call(instance, pipeline);
 			return;

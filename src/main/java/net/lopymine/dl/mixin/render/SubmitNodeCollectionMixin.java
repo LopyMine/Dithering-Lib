@@ -3,8 +3,8 @@ package net.lopymine.dl.mixin.render;
 import com.llamalad7.mixinextras.sugar.Local;
 import java.util.List;
 import net.lopymine.dl.client.DitheringLibClient;
-import net.lopymine.dl.thing.ThingMarks;
-import net.lopymine.dl.utils.DitheringMarker;
+import net.lopymine.dl.thing.RenderingMarker;
+import net.lopymine.dl.utils.IrisDitheringMarker;
 import net.minecraft.client.renderer.SubmitNodeCollection;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
@@ -20,9 +20,9 @@ public class SubmitNodeCollectionMixin {
 		if (!DitheringLibClient.isEnabled()) {
 			return;
 		}
-		boolean bl = Boolean.TRUE.equals(ThingMarks.DITHERING_ENABLED.get().getValue());
+		boolean bl = RenderingMarker.DITHERING_ENABLED.get().isEnabled();
 		if (bl) {
-			((DitheringMarker) renderType).ditheringLib$setDithering(true);
+			((IrisDitheringMarker) renderType).ditheringLib$setDithering(true);
 		}
 	}
 
@@ -31,9 +31,9 @@ public class SubmitNodeCollectionMixin {
 		if (!DitheringLibClient.isEnabled()) {
 			return;
 		}
-		boolean bl = Boolean.TRUE.equals(ThingMarks.DITHERING_ENABLED.get().getValue());
+		boolean bl = RenderingMarker.DITHERING_ENABLED.get().isEnabled();
 		if (bl) {
-			((DitheringMarker) renderType).ditheringLib$setDithering(true);
+			((IrisDitheringMarker) renderType).ditheringLib$setDithering(true);
 		}
 	}
 
@@ -42,11 +42,11 @@ public class SubmitNodeCollectionMixin {
 		if (!DitheringLibClient.isEnabled()) {
 			return;
 		}
-		boolean bl = Boolean.TRUE.equals(ThingMarks.DITHERING_ENABLED.get().getValue());
+		boolean bl = RenderingMarker.DITHERING_ENABLED.get().isEnabled();
 		if (bl) {
 			for (BakedQuad quad : quads) {
 				RenderType renderType = quad.materialInfo().itemRenderType();
-				((DitheringMarker) renderType).ditheringLib$setDithering(true);
+				((IrisDitheringMarker) renderType).ditheringLib$setDithering(true);
 			}
 		}
 	}
@@ -56,9 +56,9 @@ public class SubmitNodeCollectionMixin {
 		if (!DitheringLibClient.isEnabled()) {
 			return;
 		}
-		boolean bl = Boolean.TRUE.equals(ThingMarks.DITHERING_ENABLED.get().getValue());
+		boolean bl = RenderingMarker.DITHERING_ENABLED.get().isEnabled();
 		if (bl) {
-			((DitheringMarker) renderType).ditheringLib$setDithering(true);
+			((IrisDitheringMarker) renderType).ditheringLib$setDithering(true);
 		}
 	}
 
@@ -67,9 +67,9 @@ public class SubmitNodeCollectionMixin {
 		if (!DitheringLibClient.isEnabled()) {
 			return;
 		}
-		boolean bl = Boolean.TRUE.equals(ThingMarks.DITHERING_ENABLED.get().getValue());
+		boolean bl = RenderingMarker.DITHERING_ENABLED.get().isEnabled();
 		if (bl) {
-			((DitheringMarker) renderType).ditheringLib$setDithering(true);
+			((IrisDitheringMarker) renderType).ditheringLib$setDithering(true);
 		}
 	}
 

@@ -2,8 +2,8 @@ package net.lopymine.dl.mixin.render;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.lopymine.dl.client.DitheringLibClient;
-import net.lopymine.dl.thing.ThingMarks;
-import net.lopymine.dl.utils.DitheringMarker;
+import net.lopymine.dl.thing.RenderingMarker;
+import net.lopymine.dl.utils.IrisDitheringMarker;
 import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import org.spongepowered.asm.mixin.*;
@@ -18,9 +18,9 @@ public class BlockModelRenderStateMixin {
 		if (!DitheringLibClient.isEnabled()) {
 			return;
 		}
-		boolean bl = Boolean.TRUE.equals(ThingMarks.DITHERING_ENABLED.get().getValue());
+		boolean bl = RenderingMarker.DITHERING_ENABLED.get().isEnabled();
 		if (bl && renderType != null) {
-			((DitheringMarker) renderType).ditheringLib$setDithering(true);
+			((IrisDitheringMarker) renderType).ditheringLib$setDithering(true);
 		}
 	}
 
