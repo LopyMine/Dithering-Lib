@@ -18,9 +18,7 @@ public class VanillaDitheringDataBuffer {
 
 	private static final GpuBuffer BUFFER = RenderSystem.getDevice().createBuffer(() -> "VanillaDitheringDataBuffer UBO", 136, SIZE);
 
-	public static void update() {
-		DitheringData data = DitheringData.getInstance();
-
+	public static void update(DitheringData data) {
 		try (MemoryStack memoryStack = MemoryStack.stackPush()) {
 			ByteBuffer byteBuffer = Std140Builder.onStack(memoryStack, SIZE)
 					.putFloat(data.getFar())

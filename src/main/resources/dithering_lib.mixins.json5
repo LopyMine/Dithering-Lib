@@ -8,10 +8,13 @@
 		"pipeline.RenderPipelineMixin",
 		"pipeline.RenderPipelineBuilderMixin",
 		"pipeline.RenderPipelineBuilderAccessor",
-		"render.SubmitNodeCollectionMixin",
 		"render.RenderTypeMixin",
-		"render.BlockModelRenderStateMixin",
-		"shader.GlDeviceMixin"
+		"shader.GlDeviceMixin",
+		"render.SubmitNodeStorageMixin",
+		"render.FeatureRenderDispatcherMixin",
+		"debug.EntityRenderDispatcherMixin",
+		"debug.LevelRendererMixin",
+		"render.SubmitNodeCollectionMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

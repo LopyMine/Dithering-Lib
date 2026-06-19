@@ -16,8 +16,16 @@ mossyDependencies {
 	parchment = prop("build.parchment")
 
 	additional {
-		override("mossyCompileOnly", "iris")
-		override("mossyCompileOnly", "sodium")
+//		override("mossyCompileOnly", "iris")
+//		override("mossyCompileOnly", "sodium")
+	}
+}
+
+if (sc.current.project.contains("fabric")) {
+	loom.runConfigs.configureEach { config ->
+		if (config.getEnvironment() == "client") {
+			config.vmArg("-Ddithering_lib.debug=true")
+		}
 	}
 }
 
@@ -46,6 +54,14 @@ stonecutter {
 
 publishing {
 	repositories {
+		maven {
+			name = 'MossyProjectsReleases'
+			url = uri('https://maven.lopymine.net/releases')
+			credentials(PasswordCredentials)
+			authentication {
+				create('basic', BasicAuthentication)
+			}
+		}
 		mavenLocal()
 	}
 

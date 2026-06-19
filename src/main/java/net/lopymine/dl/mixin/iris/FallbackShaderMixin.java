@@ -41,7 +41,10 @@ public class FallbackShaderMixin {
 		if (this.ditheringLib$pixelSize == -1) {
 			return;
 		}
-		DitheringData data = DitheringData.getInstance();
+		DitheringData data = DitheringData.CURRENT_DITHERING_DATA.get();
+		if (data == null) {
+			data = new DitheringData();
+		}
 		if (this.ditheringLib$far > -1)        GL46C.glUniform1f(this.ditheringLib$far, data.getFar());
 		if (this.ditheringLib$near > -1)       GL46C.glUniform1f(this.ditheringLib$near, data.getNear());
 		if (this.ditheringLib$minValue > -1)   GL46C.glUniform1f(this.ditheringLib$minValue, data.getMinValue());

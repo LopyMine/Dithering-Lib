@@ -7,6 +7,7 @@ import lombok.*;
 public class RenderingMarker {
 
 	public static final ThreadLocal<RenderingMarker> DITHERING_ENABLED = ThreadLocal.withInitial(RenderingMarker::new);
+	public static final ThreadLocal<RenderingMarker> API_DITHERING_RENDERING = ThreadLocal.withInitial(RenderingMarker::new);
 
 	private boolean enabled;
 

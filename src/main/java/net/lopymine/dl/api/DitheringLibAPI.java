@@ -22,7 +22,7 @@ public class DitheringLibAPI {
 	}
 
 	public DitheringData getData() {
-		return DitheringData.getInstance();
+		return new DitheringData();
 	}
 
 }

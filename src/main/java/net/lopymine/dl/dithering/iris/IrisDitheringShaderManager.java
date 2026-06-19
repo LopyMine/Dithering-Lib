@@ -159,6 +159,10 @@ public class IrisDitheringShaderManager {
 	}
 
 	private static DitheringData ditheringData() {
-		return DitheringData.getInstance();
+		DitheringData data = DitheringData.CURRENT_DITHERING_DATA.get();
+		if (data == null) {
+			return new DitheringData();
+		}
+		return data;
 	}
 }

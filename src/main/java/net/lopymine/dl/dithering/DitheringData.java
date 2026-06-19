@@ -2,26 +2,23 @@ package net.lopymine.dl.dithering;
 
 import lombok.*;
 import net.lopymine.dl.dithering.vanilla.VanillaDitheringDataBuffer;
+import net.lopymine.dl.thing.RenderingMarker;
 
 @Getter
 @Setter
 @SuppressWarnings("unused")
 public class DitheringData {
 
-	private float far;
-	private float near;
-	private float minValue;
-	private float fixedValue;
-	private float pixelSize;
+	public static final ThreadLocal<DitheringData> CURRENT_DITHERING_DATA = ThreadLocal.withInitial(() -> null);
 
-	private static final DitheringData INSTANCE = new DitheringData();
-
-	public static DitheringData getInstance() {
-		return INSTANCE;
-	}
+	private float far = 0.0F;
+	private float near = 0.0F;
+	private float minValue = 0.0F;
+	private float fixedValue = 1.0F;
+	private float pixelSize = 10.0F;
 
 	public void push() {
-		VanillaDitheringDataBuffer.update();
+		CURRENT_DITHERING_DATA.set(this);
 	}
 
 }
