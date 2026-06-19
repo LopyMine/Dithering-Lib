@@ -4,8 +4,8 @@ import net.lopymine.dl.client.DitheringLibClient;
 import net.lopymine.dl.dithering.*;
 import net.lopymine.dl.thing.RenderingMarker;
 import net.lopymine.dl.utils.*;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;
@@ -17,39 +17,37 @@ public class SubmitNodeStorageMixin implements DitheringMarker {
 	private boolean ditheringStorage = false;
 
 	@Unique
-	private Boolean currentStorageIsVanilla = null;
+	@Nullable
+	private SubmitNodeStorage ditheringLib$storage = null;
 
 	@Inject(at = @At("RETURN"), method = "order(I)Lnet/minecraft/client/renderer/SubmitNodeCollection;", cancellable = true)
 	private void swapOrderToDithering(int order, CallbackInfoReturnable<SubmitNodeCollection> cir) {
-		if (!DitheringLibClient.isEnabled() || this.notUseDitheringStorageSource()) {
+		if (!DitheringLibClient.isEnabled() || this.ditheringStorage) {
+			return;
+		}
+		if (!RenderingMarker.DITHERING_ENABLED.get().isEnabled()) {
 			return;
 		}
 
-		boolean bl = RenderingMarker.DITHERING_ENABLED.get().isEnabled();
-		if (bl) {
-			SubmitNodeStorage storage = DitheringRenderManager.getInstance().getStorage();
-			SubmitNodeCollection submitNodeCollection = storage.order(order);
-			((DitheringDataContainer) submitNodeCollection).ditheringLib$setData(DitheringData.CURRENT_DITHERING_DATA.get());
-			cir.setReturnValue(submitNodeCollection);
-		}
+		SubmitNodeCollection submitNodeCollection = this.ditheringLib$getDitheringStorage().order(order);
+		((DitheringDataContainer) submitNodeCollection).ditheringLib$setData(DitheringData.CURRENT_DITHERING_DATA.get());
+		cir.setReturnValue(submitNodeCollection);
 	}
 
 	@Inject(at = @At("HEAD"), method = "endFrame")
 	private void endFrameDitheringStorage(CallbackInfo ci) {
-		if (this.notUseDitheringStorageSource()) {
+		if (this.ditheringStorage || this.ditheringLib$storage == null) {
 			return;
 		}
-
-		DitheringRenderManager.getInstance().getStorage().endFrame();
+		this.ditheringLib$storage.endFrame();
 	}
 
 	@Inject(at = @At("HEAD"), method = "clear")
 	private void clearDitheringStorage(CallbackInfo ci) {
-		if (this.notUseDitheringStorageSource()) {
+		if (this.ditheringStorage || this.ditheringLib$storage == null) {
 			return;
 		}
-
-		DitheringRenderManager.getInstance().getStorage().clear();
+		this.ditheringLib$storage.clear();
 	}
 
 	@Override
@@ -62,18 +60,14 @@ public class SubmitNodeStorageMixin implements DitheringMarker {
 		return this.ditheringStorage;
 	}
 
-	@Unique
-	private boolean notUseDitheringStorageSource() {
-		this.checkIfCurrentVanillaStorage();
-		return this.ditheringStorage || (!this.currentStorageIsVanilla && !DitheringRenderManager.getInstance().isRedirectStorage());
-	}
-
-	@Unique
-	private void checkIfCurrentVanillaStorage() {
-		if (this.currentStorageIsVanilla != null) {
-			return;
+	@Override
+	public SubmitNodeStorage ditheringLib$getDitheringStorage() {
+		if (this.ditheringStorage) {
+			return (SubmitNodeStorage) (Object) this;
 		}
-		SubmitNodeStorage submitNodeStorage = (SubmitNodeStorage) (Object) (this);
-		this.currentStorageIsVanilla = submitNodeStorage == Minecraft.getInstance().gameRenderer.getFeatureRenderDispatcher().getSubmitNodeStorage();
+		if (this.ditheringLib$storage == null) {
+			this.ditheringLib$storage = DitheringRenderManager.createDitheringStorage();
+		}
+		return this.ditheringLib$storage;
 	}
 }

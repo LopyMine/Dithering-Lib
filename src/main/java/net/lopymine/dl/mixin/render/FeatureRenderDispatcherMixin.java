@@ -3,13 +3,11 @@ package net.lopymine.dl.mixin.render;
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectAVLTreeMap;
 import java.util.Iterator;
-import net.lopymine.dl.DitheringLib;
 import net.lopymine.dl.client.DitheringLibClient;
 import net.lopymine.dl.dithering.*;
 import net.lopymine.dl.dithering.vanilla.VanillaDitheringDataBuffer;
 import net.lopymine.dl.thing.RenderingMarker;
-import net.lopymine.dl.utils.DitheringDataContainer;
-import net.minecraft.client.Minecraft;
+import net.lopymine.dl.utils.*;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.feature.FeatureRenderDispatcher;
@@ -19,9 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(FeatureRenderDispatcher.class)
 public abstract class FeatureRenderDispatcherMixin {
-
-	@Unique
-	private Boolean currentDispatcherIsVanilla = null;
 
 	@Unique
 	private boolean ditheringTranslucentRendering;
@@ -34,6 +29,8 @@ public abstract class FeatureRenderDispatcherMixin {
 
 	@Shadow @Final private BufferSource bufferSource;
 
+	@Shadow @Final private SubmitNodeStorage submitNodeStorage;
+
 	@WrapOperation(
 			at = @At(
 					value = "INVOKE",
@@ -42,7 +39,7 @@ public abstract class FeatureRenderDispatcherMixin {
 			method = {"renderSolidFeatures", "renderTranslucentFeatures"}
 	)
 	private Object pushData(Iterator<?> instance, Operation<Object> original) {
-		if (!this.isDitheringRendering() || this.notUseDitheringDispatcherSource()) {
+		if (!this.isDitheringRendering()) {
 			return original.call(instance);
 		}
 
@@ -61,10 +58,13 @@ public abstract class FeatureRenderDispatcherMixin {
 
 	@Inject(at = @At("TAIL"), method = "renderSolidFeatures")
 	private void renderSolidAgainButDithering(CallbackInfo ci) {
-		if (!DitheringLibClient.isEnabled() || this.notUseDitheringDispatcherSource()) {
+		if (!DitheringLibClient.isEnabled()) {
 			return;
 		}
 		if (this.ditheringSolidRendering || this.ditheringTranslucentRendering) {
+			return;
+		}
+		if (((DitheringMarker) this.submitNodeStorage).ditheringLib$getDitheringStorage().getSubmitsPerOrder().isEmpty()) {
 			return;
 		}
 
@@ -79,10 +79,13 @@ public abstract class FeatureRenderDispatcherMixin {
 
 	@Inject(at = @At("TAIL"), method = "renderTranslucentFeatures")
 	private void renderTranslucentAgainButDithering(CallbackInfo ci) {
-		if (!DitheringLibClient.isEnabled() || this.notUseDitheringDispatcherSource()) {
+		if (!DitheringLibClient.isEnabled()) {
 			return;
 		}
 		if (this.ditheringSolidRendering || this.ditheringTranslucentRendering) {
+			return;
+		}
+		if (((DitheringMarker) this.submitNodeStorage).ditheringLib$getDitheringStorage().getSubmitsPerOrder().isEmpty()) {
 			return;
 		}
 
@@ -102,31 +105,15 @@ public abstract class FeatureRenderDispatcherMixin {
 			method = {"renderSolidFeatures", "renderTranslucentFeatures"}
 	)
 	private Int2ObjectAVLTreeMap<SubmitNodeCollection> swapToDitheringModelSet(SubmitNodeStorage instance, Operation<Int2ObjectAVLTreeMap<SubmitNodeCollection>> original) {
-		if (!this.isDitheringRendering() || this.notUseDitheringDispatcherSource()) {
+		if (!this.isDitheringRendering()) {
 			return original.call(instance);
 		}
-		return DitheringRenderManager.getInstance().getStorage().getSubmitsPerOrder();
-	}
-
-	@Unique
-	private boolean notUseDitheringDispatcherSource() {
-		this.checkIfCurrentVanillaDispatcher();
-		return !this.currentDispatcherIsVanilla && !DitheringRenderManager.getInstance().isRedirectDispatcher();
+		return ((DitheringMarker) instance).ditheringLib$getDitheringStorage().getSubmitsPerOrder();
 	}
 
 	@Unique
 	private boolean isDitheringRendering() {
 		return this.ditheringSolidRendering || this.ditheringTranslucentRendering;
-	}
-
-	@Unique
-	private void checkIfCurrentVanillaDispatcher() {
-		if (this.currentDispatcherIsVanilla != null) {
-			return;
-		}
-
-		FeatureRenderDispatcher dispatcher = (FeatureRenderDispatcher) (Object) (this);
-		this.currentDispatcherIsVanilla = dispatcher == Minecraft.getInstance().gameRenderer.getFeatureRenderDispatcher();
 	}
 
 }
