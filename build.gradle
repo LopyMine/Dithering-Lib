@@ -16,8 +16,8 @@ mossyDependencies {
 	parchment = prop("build.parchment")
 
 	additional {
-//		override("mossyCompileOnly", "iris")
-//		override("mossyCompileOnly", "sodium")
+		override("mossyCompileOnly", "iris")
+		override("mossyCompileOnly", "sodium")
 	}
 }
 

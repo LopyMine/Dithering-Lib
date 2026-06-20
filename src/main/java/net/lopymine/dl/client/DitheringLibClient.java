@@ -24,7 +24,8 @@ public class DitheringLibClient {
 	);
 	private static final Set<Identifier> VANILLA_TARGETS_2 = Set.of(
 			Identifier.fromNamespaceAndPath("minecraft", "core/entity"),
-			Identifier.fromNamespaceAndPath("minecraft", "core/item")
+			Identifier.fromNamespaceAndPath("minecraft", "core/item"), // 26.1
+			Identifier.fromNamespaceAndPath("minecraft", "core/rendertype_item_entity_translucent_cull") // 1.21.11
 	);
 	private static final Set<Identifier> VANILLA_TARGETS_3 = Set.of(
 			Identifier.fromNamespaceAndPath("minecraft", "core/particle")

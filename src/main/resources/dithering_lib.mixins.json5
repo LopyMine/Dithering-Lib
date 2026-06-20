@@ -14,7 +14,8 @@
 		"render.FeatureRenderDispatcherMixin",
 		"debug.EntityRenderDispatcherMixin",
 		"debug.LevelRendererMixin",
-		"render.SubmitNodeCollectionMixin"
+		"render.SubmitNodeCollectionMixin",
+		"pipeline.MinecraftMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
