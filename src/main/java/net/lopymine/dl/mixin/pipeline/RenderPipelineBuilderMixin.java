@@ -36,12 +36,12 @@ public abstract class RenderPipelineBuilderMixin implements BuilderCopyDithering
 	@Shadow
 	private Optional<List<UniformDescription>> uniforms;
 	//? >=26.1 {
-    /*@Shadow
+    @Shadow
 	private Optional<DepthStencilState> depthStencilState;
 	@Shadow
 	private Optional<ColorTargetState> colorTargetState;
-    *///?} else {
-	@Shadow private Optional<DepthTestFunction> depthTestFunction;
+    //?} else {
+	/*@Shadow private Optional<DepthTestFunction> depthTestFunction;
 	@Shadow private Optional<Boolean> writeDepth;
 	@Shadow private float depthBiasScaleFactor;
 	@Shadow private float depthBiasConstant;
@@ -49,7 +49,7 @@ public abstract class RenderPipelineBuilderMixin implements BuilderCopyDithering
 	@Shadow private Optional<Boolean> writeAlpha;
 	@Shadow private Optional<LogicOp> colorLogic;
 	@Shadow private Optional<BlendFunction> blendFunction;
-	//?}
+	*///?}
 	@Shadow
 	private Optional<PolygonMode> polygonMode;
 	@Shadow
@@ -86,10 +86,10 @@ public abstract class RenderPipelineBuilderMixin implements BuilderCopyDithering
 		this.withUniform("DitheringLibData", UniformType.UNIFORM_BUFFER);
 
 		//? >=26.1 {
-        /*this.depthStencilState = accessor.getDepthStencilState();
+        this.depthStencilState = accessor.getDepthStencilState();
 		this.colorTargetState = accessor.getColorTargetState();
-		*///?} else {
-		this.depthTestFunction = accessor.getDepthTestFunction();
+		//?} else {
+		/*this.depthTestFunction = accessor.getDepthTestFunction();
 		this.writeDepth = accessor.getWriteDepth();
 		this.depthBiasScaleFactor = accessor.getDepthBiasScaleFactor();
 		this.depthBiasConstant = accessor.getDepthBiasConstant();
@@ -97,7 +97,7 @@ public abstract class RenderPipelineBuilderMixin implements BuilderCopyDithering
 		this.writeAlpha = accessor.getWriteAlpha();
 		this.colorLogic = accessor.getColorLogic();
 		this.blendFunction = accessor.getBlendFunction();
-		//?}
+		*///?}
 
 		this.polygonMode = accessor.getPolygonMode();
 		this.cull = accessor.getCull();

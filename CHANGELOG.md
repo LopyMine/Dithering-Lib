@@ -1,1 +1,1 @@
-- Fixed Iris fallback shaders
+- Fixed custom RenderPipeline registration

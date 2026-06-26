@@ -24,14 +24,14 @@ public abstract class FeatureRenderDispatcherMixin {
 	private boolean ditheringSolidRendering;
 
 	//? if >=26.1 {
-	/*@Shadow
+	@Shadow
 	public abstract void renderTranslucentFeatures();
 
 	@Shadow
 	public abstract void renderSolidFeatures();
-	*///?} else {
-	@Shadow public abstract void renderAllFeatures();
-	//?}
+	//?} else {
+	/*@Shadow public abstract void renderAllFeatures();
+	*///?}
 
 	@Shadow @Final private BufferSource bufferSource;
 
@@ -43,10 +43,10 @@ public abstract class FeatureRenderDispatcherMixin {
 					target = "Ljava/util/Iterator;next()Ljava/lang/Object;"
 			),
 			//? if >=26.1 {
-			/*method = {"renderSolidFeatures", "renderTranslucentFeatures"}
-			*///?} else {
-			method = {"renderAllFeatures"}
-			//?}
+			method = {"renderSolidFeatures", "renderTranslucentFeatures"}
+			//?} else {
+			/*method = {"renderAllFeatures"}
+			*///?}
 	)
 	private Object pushData(Iterator<?> instance, Operation<Object> original) {
 		if (!this.isDitheringRendering()) {
@@ -67,7 +67,7 @@ public abstract class FeatureRenderDispatcherMixin {
 	}
 
 	//? if >=26.1 {
-	/*@Inject(at = @At("TAIL"), method = "renderSolidFeatures")
+	@Inject(at = @At("TAIL"), method = "renderSolidFeatures")
 	private void renderSolidAgainButDithering(CallbackInfo ci) {
 		if (!DitheringLibClient.isEnabled()) {
 			return;
@@ -108,8 +108,8 @@ public abstract class FeatureRenderDispatcherMixin {
 		this.ditheringTranslucentRendering = false;
 		RenderingMarker.API_DITHERING_RENDERING.get().setEnabled(false);
 	}
-	*///?} else {
-	@Inject(method = "renderAllFeatures", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SubmitNodeStorage;clear()V"))
+	//?} else {
+	/*@Inject(method = "renderAllFeatures", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SubmitNodeStorage;clear()V"))
 		private void renderSolidAgainButDithering(CallbackInfo ci) {
 			if (!DitheringLibClient.isEnabled()) {
 				return;
@@ -131,17 +131,17 @@ public abstract class FeatureRenderDispatcherMixin {
 			this.ditheringTranslucentRendering = false;
 			RenderingMarker.API_DITHERING_RENDERING.get().setEnabled(false);
 		}
-	//?}
+	*///?}
 
 	@WrapOperation(
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/client/renderer/SubmitNodeStorage;getSubmitsPerOrder()Lit/unimi/dsi/fastutil/ints/Int2ObjectAVLTreeMap;"),
 			//? if >=26.1 {
-			/*method = {"renderSolidFeatures", "renderTranslucentFeatures"}
-			*///?} else {
-			method = {"renderAllFeatures"}
-			//?}
+			method = {"renderSolidFeatures", "renderTranslucentFeatures"}
+			//?} else {
+			/*method = {"renderAllFeatures"}
+			*///?}
 	)
 	private Int2ObjectAVLTreeMap<SubmitNodeCollection> swapToDitheringModelSet(SubmitNodeStorage instance, Operation<Int2ObjectAVLTreeMap<SubmitNodeCollection>> original) {
 		if (!this.isDitheringRendering()) {

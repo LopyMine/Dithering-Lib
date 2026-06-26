@@ -12,10 +12,10 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;
 
 //? if >=26.1 {
-/*import net.minecraft.client.renderer.state.level.CameraRenderState;
-*///?} else {
-import net.minecraft.client.renderer.state.CameraRenderState;
-//?}
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+//?} else {
+/*import net.minecraft.client.renderer.state.CameraRenderState;
+*///?}
 
 @Mixin(EntityRenderDispatcher.class)
 public class EntityRenderDispatcherMixin {

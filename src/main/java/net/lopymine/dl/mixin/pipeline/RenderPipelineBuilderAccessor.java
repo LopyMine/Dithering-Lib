@@ -34,13 +34,13 @@ public interface RenderPipelineBuilderAccessor {
 	Optional<List<UniformDescription>> getUniforms();
 
 	//? >=26.1 {
-    /*@Accessor("depthStencilState")
+    @Accessor("depthStencilState")
     Optional<DepthStencilState> getDepthStencilState();
 
     @Accessor("colorTargetState")
     Optional<ColorTargetState> getColorTargetState();
-    *///?} else {
-	@Accessor("depthTestFunction")
+    //?} else {
+	/*@Accessor("depthTestFunction")
 	Optional<DepthTestFunction> getDepthTestFunction();
 
 	@Accessor("writeDepth")
@@ -63,7 +63,7 @@ public interface RenderPipelineBuilderAccessor {
 
 	@Accessor("blendFunction")
 	Optional<BlendFunction> getBlendFunction();
-	//?}
+	*///?}
 
 	@Accessor("polygonMode")
 	Optional<PolygonMode> getPolygonMode();
